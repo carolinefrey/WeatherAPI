@@ -20,10 +20,18 @@ class MainContentView: UIView {
         return title
     }()
     
-    let weatherIcon: UIImageView = {
+    let weatherIconImage: UIImageView = {
         let icon = UIImageView()
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
+    }()
+    
+    let temperature: UILabel = {
+        let temp = UILabel()
+        temp.translatesAutoresizingMaskIntoConstraints = false
+        temp.font = .systemFont(ofSize: 24)
+        temp.textColor = .black
+        return temp
     }()
     
     // MARK: - Initializers
@@ -44,25 +52,29 @@ class MainContentView: UIView {
     // MARK: - Functions
     
     func configureWeatherIcon(withIcon icon: String) {
-        var config = UIImage.SymbolConfiguration.preferringMulticolor()
-        weatherIcon.image = UIImage(systemName: icon, withConfiguration: config)
+        let config = UIImage.SymbolConfiguration.preferringMulticolor()
+        weatherIconImage.image = UIImage(systemName: icon, withConfiguration: config)
     }
     
     // MARK: - UI Setup
     
     private func configureViews() {
         addSubview(viewTitle)
-        addSubview(weatherIcon)
+        addSubview(weatherIconImage)
+        addSubview(temperature)
         
         NSLayoutConstraint.activate([
             viewTitle.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
             viewTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             viewTitle.trailingAnchor.constraint(equalTo: trailingAnchor),
 
-            weatherIcon.centerXAnchor.constraint(equalTo: centerXAnchor),
-            weatherIcon.centerYAnchor.constraint(equalTo: centerYAnchor),
-            weatherIcon.heightAnchor.constraint(equalToConstant: 100),
-            weatherIcon.widthAnchor.constraint(equalToConstant: 100)
+            weatherIconImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            weatherIconImage.centerYAnchor.constraint(equalTo: centerYAnchor),
+            weatherIconImage.heightAnchor.constraint(equalToConstant: 100),
+            weatherIconImage.widthAnchor.constraint(equalToConstant: 100),
+            
+            temperature.centerXAnchor.constraint(equalTo: centerXAnchor),
+            temperature.topAnchor.constraint(equalTo: weatherIconImage.bottomAnchor, constant: 20)
         ])
     }
 }

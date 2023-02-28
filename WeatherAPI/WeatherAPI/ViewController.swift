@@ -15,10 +15,26 @@ class ViewController: UIViewController {
 
     // MARK: - Lifecycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        super.loadView()
         contentView = MainContentView()
         view = contentView
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        fetchWeatherData { forecast, error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            }
+            
+            DispatchQueue.main.async {
+                if let forecast = forecast {
+                    self.contentView.temperature.text = "\(String(format: "%.0f", forecast.currently.temperature))°"
+                } else {
+                    print("Temperature not found")
+                }
+            }
+        }
+    }
 }
-
