@@ -30,7 +30,7 @@ public func fetchWeatherData(completion: @escaping (Forecast?, Error?) -> Void) 
     urlRequest.httpMethod = "GET"
     
     let headers = [
-        "X-RapidAPI-Key": "5ec072ed3dmsh1e55bafa40e382bp10a008jsncd302937680e",
+        "X-RapidAPI-Key": APIConstants.key,
         "X-RapidAPI-Host": "dark-sky.p.rapidapi.com"
     ]
     
@@ -42,7 +42,6 @@ public func fetchWeatherData(completion: @escaping (Forecast?, Error?) -> Void) 
         }
         do {
             let weatherData = try JSONDecoder().decode(Forecast.self, from: data)
-//                let randomWord = response.value
             completion(weatherData, nil)
         } catch {
             completion(nil, error)
