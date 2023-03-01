@@ -12,7 +12,6 @@ class ViewController: UIViewController {
     // MARK: - UI Properties
     
     private var contentView: MainContentView!
-    var selectedCity = "Denver"
 
     // MARK: - Lifecycle
     
@@ -26,7 +25,13 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchWeatherData(city: selectedCity) { forecast, error in
+        fetchWeather(city: "Denver")
+    }
+    
+    // MARK: - Functions
+    
+    private func fetchWeather(city: String) {
+        fetchWeatherData(city: city) { forecast, error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
             }
@@ -36,23 +41,23 @@ class ViewController: UIViewController {
                     self.contentView.temperature.text = "\(forecast.TempF)°"
                     switch forecast.Weather {
                     case "Fair":
-                        self.contentView.configureWeatherData(forCity: self.selectedCity, withIcon: "sun.min.fill")
+                        self.contentView.configureWeatherData(forCity: "Denver", withIcon: "sun.min.fill")
                     case "Partly Cloudy":
-                        self.contentView.configureWeatherData(forCity: self.selectedCity, withIcon: "cloud.sun")
+                        self.contentView.configureWeatherData(forCity: "Denver", withIcon: "cloud.sun")
                     case "A Few Clouds":
-                        self.contentView.configureWeatherData(forCity: self.selectedCity, withIcon: "cloud.sun")
+                        self.contentView.configureWeatherData(forCity: "Denver", withIcon: "cloud.sun")
                     case "Mostly Cloudy":
-                        self.contentView.configureWeatherData(forCity: self.selectedCity, withIcon: "cloud.fill")
+                        self.contentView.configureWeatherData(forCity: "Denver", withIcon: "cloud.fill")
                     case "Light Drizzle":
-                        self.contentView.configureWeatherData(forCity: self.selectedCity, withIcon: "cloud.drizzle")
+                        self.contentView.configureWeatherData(forCity: "Denver", withIcon: "cloud.drizzle")
                     case "Light Rain":
-                        self.contentView.configureWeatherData(forCity: self.selectedCity, withIcon: "cloud.drizzle")
+                        self.contentView.configureWeatherData(forCity: "Denver", withIcon: "cloud.drizzle")
                     case "Rain":
-                        self.contentView.configureWeatherData(forCity: self.selectedCity, withIcon: "cloud.heavyrain")
+                        self.contentView.configureWeatherData(forCity: "Denver", withIcon: "cloud.heavyrain")
                     case "Fog/Mist":
-                        self.contentView.configureWeatherData(forCity: self.selectedCity, withIcon: "cloud.fog.fill")
+                        self.contentView.configureWeatherData(forCity: "Denver", withIcon: "cloud.fog.fill")
                     default:
-                        self.contentView.configureWeatherData(forCity: self.selectedCity, withIcon: "sun.max.fill")
+                        self.contentView.configureWeatherData(forCity: "Denver", withIcon: "sun.max.fill")
                     }
                 } else {
                     print("Temperature not found")
@@ -82,38 +87,6 @@ extension ViewController: UIPickerViewDelegate {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        fetchWeatherData(city: self.contentView.cityOptions[row]) { forecast, error in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-            }
-            
-            DispatchQueue.main.async {
-                if let forecast = forecast {
-                    self.contentView.temperature.text = "\(forecast.TempF)°"
-                    switch forecast.Weather {
-                    case "Fair":
-                        self.contentView.configureWeatherData(forCity: self.contentView.cityOptions[row], withIcon: "sun.min.fill")
-                    case "Partly Cloudy":
-                        self.contentView.configureWeatherData(forCity: self.contentView.cityOptions[row], withIcon: "cloud.sun")
-                    case "A Few Clouds":
-                        self.contentView.configureWeatherData(forCity: self.contentView.cityOptions[row], withIcon: "cloud.sun")
-                    case "Mostly Cloudy":
-                        self.contentView.configureWeatherData(forCity: self.contentView.cityOptions[row], withIcon: "cloud.fill")
-                    case "Light Drizzle":
-                        self.contentView.configureWeatherData(forCity: self.contentView.cityOptions[row], withIcon: "cloud.drizzle")
-                    case "Light Rain":
-                        self.contentView.configureWeatherData(forCity: self.contentView.cityOptions[row], withIcon: "cloud.drizzle")
-                    case "Rain":
-                        self.contentView.configureWeatherData(forCity: self.contentView.cityOptions[row], withIcon: "cloud.heavyrain")
-                    case "Fog/Mist":
-                        self.contentView.configureWeatherData(forCity: self.contentView.cityOptions[row], withIcon: "cloud.fog.fill")
-                    default:
-                        self.contentView.configureWeatherData(forCity: self.contentView.cityOptions[row], withIcon: "sun.max.fill")
-                    }
-                } else {
-                    print("Temperature not found")
-                }
-            }
-        }
+        fetchWeather(city: self.contentView.cityOptions[row])
     }
 }
