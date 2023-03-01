@@ -8,6 +8,8 @@
 import UIKit
 
 class MainContentView: UIView {
+    
+    let cityOptions = ["Denver", "Los Angeles", "New York", "Boston"]
 
     // MARK: - UI Properties
     
@@ -18,6 +20,12 @@ class MainContentView: UIView {
         title.font = .boldSystemFont(ofSize: 36)
         title.textColor = .black
         return title
+    }()
+
+    let cityPicker: UIPickerView = {
+        let picker = UIPickerView()
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        return picker
     }()
     
     let weatherIconImage: UIImageView = {
@@ -41,7 +49,6 @@ class MainContentView: UIView {
         
         backgroundColor = .white
         
-        configureWeatherIcon(withIcon: "sun.max.fill")
         configureViews()
     }
     
@@ -51,8 +58,8 @@ class MainContentView: UIView {
     
     // MARK: - Functions
     
-    func configureWeatherIcon(withIcon icon: String) {
-        let config = UIImage.SymbolConfiguration.preferringMulticolor()
+    func configureWeatherData(forCity city: String, withIcon icon: String) {
+        let config = UIImage.SymbolConfiguration(pointSize: 100)
         weatherIconImage.image = UIImage(systemName: icon, withConfiguration: config)
     }
     
@@ -60,6 +67,7 @@ class MainContentView: UIView {
     
     private func configureViews() {
         addSubview(viewTitle)
+        addSubview(cityPicker)
         addSubview(weatherIconImage)
         addSubview(temperature)
         
@@ -67,14 +75,15 @@ class MainContentView: UIView {
             viewTitle.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
             viewTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             viewTitle.trailingAnchor.constraint(equalTo: trailingAnchor),
+            
+            cityPicker.topAnchor.constraint(equalTo: viewTitle.bottomAnchor),
+            cityPicker.centerXAnchor.constraint(equalTo: centerXAnchor),
 
             weatherIconImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            weatherIconImage.centerYAnchor.constraint(equalTo: centerYAnchor),
-            weatherIconImage.heightAnchor.constraint(equalToConstant: 100),
-            weatherIconImage.widthAnchor.constraint(equalToConstant: 100),
+            weatherIconImage.topAnchor.constraint(equalTo: cityPicker.bottomAnchor, constant: 10),
             
             temperature.centerXAnchor.constraint(equalTo: centerXAnchor),
-            temperature.topAnchor.constraint(equalTo: weatherIconImage.bottomAnchor, constant: 20)
+            temperature.topAnchor.constraint(equalTo: weatherIconImage.bottomAnchor, constant: 10)
         ])
     }
 }

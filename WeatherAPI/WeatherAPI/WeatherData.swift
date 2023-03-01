@@ -8,20 +8,34 @@
 import Foundation
 import UIKit
 
-public struct Forecast: Codable {
-    let latitude: Double
-    let longitude: Double
-    let timezone: String
-    let currently: Currently
+public struct Properties: Codable {
+    let City: String
+    let State: String
+    let TempF: String
+    let TempC: String
+    let Weather: String
 }
 
-public struct Currently: Codable {
-    let summary: String
-    let temperature: Double
-}
-
-public func fetchWeatherData(completion: @escaping (Forecast?, Error?) -> Void) {
-    guard let weatherURL = URL(string: "https://dark-sky.p.rapidapi.com/39.751710,-105.004230?units=auto&lang=en") else {
+public func fetchWeatherData(city: String, completion: @escaping (Properties?, Error?) -> Void) {
+    var state = "CO"
+    var cityFormatted = "Denver"
+    switch city {
+    case "Denver":
+        cityFormatted = "Denver"
+        state = "CO"
+    case "Los Angeles":
+        cityFormatted = "Los%20Angeles"
+        state = "CA"
+    case "New York":
+        cityFormatted = "New%20York"
+        state = "NY"
+    case "Boston":
+        cityFormatted = "Boston"
+        state = "MA"
+    default:
+        state = "CO"
+    }
+    guard let weatherURL = URL(string: "https://us-weather-by-city.p.rapidapi.com/getweather?city=\(cityFormatted)&state=\(state)") else {
         print("Invalid URL")
         return
     }
@@ -31,7 +45,7 @@ public func fetchWeatherData(completion: @escaping (Forecast?, Error?) -> Void) 
     
     let headers = [
         "X-RapidAPI-Key": APIConstants.key,
-        "X-RapidAPI-Host": "dark-sky.p.rapidapi.com"
+        "X-RapidAPI-Host": "us-weather-by-city.p.rapidapi.com"
     ]
     
     urlRequest.allHTTPHeaderFields = headers
@@ -41,7 +55,8 @@ public func fetchWeatherData(completion: @escaping (Forecast?, Error?) -> Void) 
             return
         }
         do {
-            let weatherData = try JSONDecoder().decode(Forecast.self, from: data)
+            let weatherData = try JSONDecoder().decode(Properties.self, from: data)
+            print(weatherData)
             completion(weatherData, nil)
         } catch {
             completion(nil, error)
