@@ -9,7 +9,7 @@ import UIKit
 
 class MainContentView: UIView {
     
-    let cityOptions = ["Denver", "Los Angeles", "New York", "Boston"]
+    let cityOptions = ["Current location", "Denver", "Los Angeles", "New York", "Boston"]
 
     // MARK: - UI Properties
     
@@ -26,6 +26,14 @@ class MainContentView: UIView {
         let picker = UIPickerView()
         picker.translatesAutoresizingMaskIntoConstraints = false
         return picker
+    }()
+    
+    let cityLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .boldSystemFont(ofSize: 24)
+        label.textColor = .black
+        return label
     }()
     
     let weatherIconImage: UIImageView = {
@@ -125,7 +133,7 @@ class MainContentView: UIView {
     
     private func configureViews() {
         addSubview(viewTitle)
-        addSubview(cityPicker)
+        addSubview(cityLabel)
         addSubview(weatherIconImage)
         addSubview(conditionLabel)
         addSubview(conditionData)
@@ -135,17 +143,18 @@ class MainContentView: UIView {
         addSubview(windDataLabel)
         addSubview(humidityLabel)
         addSubview(humidityDataLabel)
+        addSubview(cityPicker)
         
         NSLayoutConstraint.activate([
             viewTitle.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
             viewTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             viewTitle.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            cityPicker.topAnchor.constraint(equalTo: viewTitle.bottomAnchor),
-            cityPicker.centerXAnchor.constraint(equalTo: centerXAnchor),
+            cityLabel.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 35),
+            cityLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
 
             weatherIconImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            weatherIconImage.topAnchor.constraint(equalTo: cityPicker.bottomAnchor),
+            weatherIconImage.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 15),
             
             conditionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35),
             conditionLabel.topAnchor.constraint(equalTo: weatherIconImage.bottomAnchor, constant: 15),
@@ -166,6 +175,9 @@ class MainContentView: UIView {
             humidityLabel.topAnchor.constraint(equalTo: windLabel.bottomAnchor),
             humidityDataLabel.leadingAnchor.constraint(equalTo: humidityLabel.trailingAnchor),
             humidityDataLabel.topAnchor.constraint(equalTo: humidityLabel.topAnchor),
+            
+            cityPicker.topAnchor.constraint(equalTo: humidityLabel.bottomAnchor, constant: 20),
+            cityPicker.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
     }
 }
