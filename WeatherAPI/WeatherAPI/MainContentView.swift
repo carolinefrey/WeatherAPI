@@ -9,29 +9,30 @@ import UIKit
 
 class MainContentView: UIView {
     
-    let cityOptions = ["Current location", "Denver", "Los Angeles", "New York", "Boston"]
+//    let cityOptions = ["Current location", "Denver", "Los Angeles", "New York", "Boston"]
 
     // MARK: - UI Properties
     
     let viewTitle: UILabel = {
         let title = UILabel()
         title.translatesAutoresizingMaskIntoConstraints = false
-        title.text = ("Today's Weather")
+        title.text = ("Forecast")
         title.font = .boldSystemFont(ofSize: 36)
         title.textColor = .black
         return title
     }()
 
-    let cityPicker: UIPickerView = {
-        let picker = UIPickerView()
-        picker.translatesAutoresizingMaskIntoConstraints = false
-        return picker
-    }()
+//    let cityPicker: UIPickerView = {
+//        let picker = UIPickerView()
+//        picker.translatesAutoresizingMaskIntoConstraints = false
+//        return picker
+//    }()
     
-    let cityLabel: UILabel = {
+    let todayLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .boldSystemFont(ofSize: 24)
+        label.text = "Today"
+        label.font = .boldSystemFont(ofSize: 32)
         label.textColor = .black
         return label
     }()
@@ -42,72 +43,36 @@ class MainContentView: UIView {
         return icon
     }()
     
-    let conditionLabel: UILabel = {
+    let forecastLabel: UILabel = {
+        let forecastLabel = UILabel()
+        forecastLabel.translatesAutoresizingMaskIntoConstraints = false
+        forecastLabel.font = .boldSystemFont(ofSize: 16)
+        forecastLabel.textColor = .black
+        return forecastLabel
+    }()
+    
+    let conditionsLabel: UILabel = {
         let conditionLabel = UILabel()
         conditionLabel.translatesAutoresizingMaskIntoConstraints = false
-        conditionLabel.font = .boldSystemFont(ofSize: 18)
+        conditionLabel.font = .systemFont(ofSize: 14)
         conditionLabel.textColor = .black
-        conditionLabel.text = "Conditions: "
         return conditionLabel
-    }()
-    
-    let conditionData: UILabel = {
-        let conditionData = UILabel()
-        conditionData.translatesAutoresizingMaskIntoConstraints = false
-        conditionData.font = .systemFont(ofSize: 18)
-        conditionData.textColor = .black
-        return conditionData
-    }()
-    
-    let temperatureLabel: UILabel = {
-        let tempLabel = UILabel()
-        tempLabel.translatesAutoresizingMaskIntoConstraints = false
-        tempLabel.font = .boldSystemFont(ofSize: 18)
-        tempLabel.textColor = .black
-        tempLabel.text = "Current temperature: "
-        return tempLabel
-    }()
-    
-    let temperatureDataLabel: UILabel = {
-        let temp = UILabel()
-        temp.translatesAutoresizingMaskIntoConstraints = false
-        temp.font = .systemFont(ofSize: 18)
-        temp.textColor = .black
-        return temp
     }()
     
     let windLabel: UILabel = {
         let windLabel = UILabel()
         windLabel.translatesAutoresizingMaskIntoConstraints = false
-        windLabel.font = .boldSystemFont(ofSize: 18)
+        windLabel.font = .systemFont(ofSize: 14)
         windLabel.textColor = .black
-        windLabel.text = "Wind speed: "
         return windLabel
-    }()
-    
-    let windDataLabel: UILabel = {
-        let windData = UILabel()
-        windData.translatesAutoresizingMaskIntoConstraints = false
-        windData.font = .systemFont(ofSize: 18)
-        windData.textColor = .black
-        return windData
     }()
     
     let humidityLabel: UILabel = {
         let humidityLabel = UILabel()
         humidityLabel.translatesAutoresizingMaskIntoConstraints = false
-        humidityLabel.font = .boldSystemFont(ofSize: 18)
+        humidityLabel.font = .systemFont(ofSize: 14)
         humidityLabel.textColor = .black
-        humidityLabel.text = "Humidity: "
         return humidityLabel
-    }()
-    
-    let humidityDataLabel: UILabel = {
-        let humidityData = UILabel()
-        humidityData.translatesAutoresizingMaskIntoConstraints = false
-        humidityData.font = .systemFont(ofSize: 18)
-        humidityData.textColor = .black
-        return humidityData
     }()
     
     // MARK: - Initializers
@@ -125,7 +90,7 @@ class MainContentView: UIView {
     // MARK: - Functions
     
     func configureWeatherData(forCity city: String, withIcon icon: String) {
-        let config = UIImage.SymbolConfiguration(pointSize: 100)
+        let config = UIImage.SymbolConfiguration(pointSize: 50)
         weatherIconImage.image = UIImage(systemName: icon, withConfiguration: config)
     }
     
@@ -133,51 +98,36 @@ class MainContentView: UIView {
     
     private func configureViews() {
         addSubview(viewTitle)
-        addSubview(cityLabel)
+        addSubview(todayLabel)
         addSubview(weatherIconImage)
-        addSubview(conditionLabel)
-        addSubview(conditionData)
-        addSubview(temperatureLabel)
-        addSubview(temperatureDataLabel)
+        addSubview(forecastLabel)
+        addSubview(conditionsLabel)
         addSubview(windLabel)
-        addSubview(windDataLabel)
         addSubview(humidityLabel)
-        addSubview(humidityDataLabel)
-        addSubview(cityPicker)
+
         
         NSLayoutConstraint.activate([
             viewTitle.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
             viewTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             viewTitle.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            cityLabel.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 35),
-            cityLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            todayLabel.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 35),
+            todayLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
 
-            weatherIconImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            weatherIconImage.topAnchor.constraint(equalTo: cityLabel.bottomAnchor, constant: 15),
+            weatherIconImage.topAnchor.constraint(equalTo: todayLabel.bottomAnchor, constant: 15),
+            weatherIconImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             
-            conditionLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35),
-            conditionLabel.topAnchor.constraint(equalTo: weatherIconImage.bottomAnchor, constant: 15),
-            conditionData.leadingAnchor.constraint(equalTo: conditionLabel.trailingAnchor),
-            conditionData.topAnchor.constraint(equalTo: conditionLabel.topAnchor),
+            forecastLabel.topAnchor.constraint(equalTo: weatherIconImage.bottomAnchor, constant: 5),
+            forecastLabel.centerXAnchor.constraint(equalTo: weatherIconImage.centerXAnchor),
             
-            temperatureLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35),
-            temperatureLabel.topAnchor.constraint(equalTo: conditionLabel.bottomAnchor),
-            temperatureDataLabel.leadingAnchor.constraint(equalTo: temperatureLabel.trailingAnchor),
-            temperatureDataLabel.topAnchor.constraint(equalTo: temperatureLabel.topAnchor),
+            conditionsLabel.topAnchor.constraint(equalTo: weatherIconImage.topAnchor),
+            conditionsLabel.leadingAnchor.constraint(equalTo: weatherIconImage.trailingAnchor, constant: 10),
             
-            windLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35),
-            windLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor),
-            windDataLabel.leadingAnchor.constraint(equalTo: windLabel.trailingAnchor),
-            windDataLabel.topAnchor.constraint(equalTo: windLabel.topAnchor),
+            windLabel.topAnchor.constraint(equalTo: conditionsLabel.bottomAnchor),
+            windLabel.leadingAnchor.constraint(equalTo: weatherIconImage.trailingAnchor, constant: 10),
             
-            humidityLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35),
             humidityLabel.topAnchor.constraint(equalTo: windLabel.bottomAnchor),
-            humidityDataLabel.leadingAnchor.constraint(equalTo: humidityLabel.trailingAnchor),
-            humidityDataLabel.topAnchor.constraint(equalTo: humidityLabel.topAnchor),
-            
-            cityPicker.topAnchor.constraint(equalTo: humidityLabel.bottomAnchor, constant: 20),
-            cityPicker.centerXAnchor.constraint(equalTo: centerXAnchor),
+            humidityLabel.leadingAnchor.constraint(equalTo: weatherIconImage.trailingAnchor, constant: 10),
         ])
     }
 }

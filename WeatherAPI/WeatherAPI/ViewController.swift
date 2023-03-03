@@ -22,8 +22,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         super.loadView()
         contentView = MainContentView()
         view = contentView
-        contentView.cityPicker.dataSource = self
-        contentView.cityPicker.delegate = self
+//        contentView.cityPicker.dataSource = self
+//        contentView.cityPicker.delegate = self
     }
     
     override func viewDidLoad() {
@@ -69,11 +69,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             DispatchQueue.main.async {
                 if let forecast = forecast {
                     self.configureWeatherIcon(forecast: forecast, city: city)
-                    self.contentView.cityLabel.text = "\(city)"
-                    self.contentView.conditionData.text = "\(forecast.current.condition.text)"
-                    self.contentView.temperatureDataLabel.text = "\(forecast.current.temp_f)°F"
-                    self.contentView.windDataLabel.text = "\(forecast.current.wind_mph) mph"
-                    self.contentView.humidityDataLabel.text = "\(forecast.current.humidity)%"
+                    self.contentView.forecastLabel.text = "\(forecast.current.condition.text)"
+                    self.contentView.conditionsLabel.text = "Currently \(forecast.current.temp_f)°. High of \(forecast.forecast.forecastday[0].day.maxtemp_f)°. Low of \(forecast.forecast.forecastday[0].day.mintemp_f)°"
+                    self.contentView.windLabel.text = "Winds at \(forecast.current.wind_mph) mph"
+                    self.contentView.humidityLabel.text = "Humidity of \(forecast.current.humidity)%"
                 } else {
                     print("Temperature not found")
                 }
@@ -107,28 +106,28 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
 // MARK: - UIPickerViewDataSource
 
-extension ViewController: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        5
-    }
-}
+//extension ViewController: UIPickerViewDataSource {
+//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+//        1
+//    }
+//
+//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        5
+//    }
+//}
 
 // MARK: - UIPickerViewDelegate
 
-extension ViewController: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return contentView.cityOptions[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if self.contentView.cityOptions[row] == "Current location" {
-            getUserLocation()
-        } else {
-            fetchWeather(city: self.contentView.cityOptions[row])
-        }
-    }
-}
+//extension ViewController: UIPickerViewDelegate {
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        return contentView.cityOptions[row]
+//    }
+//
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        if self.contentView.cityOptions[row] == "Current location" {
+//            getUserLocation()
+//        } else {
+//            fetchWeather(city: self.contentView.cityOptions[row])
+//        }
+//    }
+//}

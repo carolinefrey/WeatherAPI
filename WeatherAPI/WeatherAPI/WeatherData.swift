@@ -11,6 +11,7 @@ import UIKit
 public struct Forecast: Codable {
     let location: Location
     let current: Current
+    let forecast: FullForecast
 }
 
 public struct Location: Codable {
@@ -30,6 +31,19 @@ public struct Current: Codable {
 
 public struct Condition: Codable {
     let text: String
+}
+
+public struct FullForecast: Codable {
+    let forecastday: [ForecastDay]
+}
+
+public struct ForecastDay: Codable {
+    let day: Day
+}
+
+public struct Day: Codable {
+    let maxtemp_f: Double
+    let mintemp_f: Double
 }
 
 public func fetchWeatherData(city: String, completion: @escaping (Forecast?, Error?) -> Void) {
