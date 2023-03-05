@@ -44,21 +44,15 @@ public struct ForecastDay: Codable {
 public struct Day: Codable {
     let maxtemp_f: Double
     let mintemp_f: Double
+    let condition: Condition
 }
 
 public func fetchWeatherData(city: String, completion: @escaping (Forecast?, Error?) -> Void) {
     var cityFormatted = ""
-    switch city {
-    case "Denver":
-        cityFormatted = "Denver"
-    case "Los Angeles":
-        cityFormatted = "Los%20Angeles"
-    case "New York":
-        cityFormatted = "New%20York"
-    case "Boston":
-        cityFormatted = "Boston"
-    default:
-        cityFormatted = "Denver"
+    if city.contains(" ") {
+        cityFormatted = city.replacingOccurrences(of: " ", with: "%20")
+    } else {
+        cityFormatted = city
     }
     guard let weatherURL = URL(string: "https://weatherapi-com.p.rapidapi.com/forecast.json?q=\(cityFormatted)&days=3") else {
         print("Invalid URL")
