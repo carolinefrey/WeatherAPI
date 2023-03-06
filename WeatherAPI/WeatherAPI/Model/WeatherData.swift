@@ -38,6 +38,7 @@ public struct FullForecast: Codable {
 }
 
 public struct ForecastDay: Codable {
+    let date: String
     let day: Day
 }
 

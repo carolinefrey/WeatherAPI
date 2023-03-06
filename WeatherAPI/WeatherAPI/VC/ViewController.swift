@@ -22,8 +22,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         super.loadView()
         contentView = MainContentView()
         view = contentView
-//        contentView.cityPicker.dataSource = self
-//        contentView.cityPicker.delegate = self
     }
     
     override func viewDidLoad() {
@@ -68,7 +66,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             
             DispatchQueue.main.async {
                 if let forecast = forecast {
-                    self.contentView.configureCurrentWeatherData(forecast: forecast, forCity: city)
+                    self.contentView.configureCurrentWeatherData(forecast: forecast)
                     self.contentView.configureFutureWeatherData(forecast: forecast)
                 } else {
                     print("Temperature not found")
@@ -77,31 +75,3 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
 }
-
-// MARK: - UIPickerViewDataSource
-
-//extension ViewController: UIPickerViewDataSource {
-//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//        1
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        5
-//    }
-//}
-
-// MARK: - UIPickerViewDelegate
-
-//extension ViewController: UIPickerViewDelegate {
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        return contentView.cityOptions[row]
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        if self.contentView.cityOptions[row] == "Current location" {
-//            getUserLocation()
-//        } else {
-//            fetchWeather(city: self.contentView.cityOptions[row])
-//        }
-//    }
-//}
